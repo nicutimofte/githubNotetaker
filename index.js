@@ -5,7 +5,7 @@
  */
 
 import React, { Component } from 'react';
-import Main from './App/components/Main';
+import Main from './App/Components/Main';
 import {
 	AppRegistry,
 	Platform,
@@ -21,7 +21,7 @@ const styles = StyleSheet.create({
 		backgroundColor: '#111111',
 	}
 });
-
+ 
 class githubNoteTaker extends React.Component {
 	constructor(props){
 		super(props);

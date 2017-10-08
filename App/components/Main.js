@@ -1,14 +1,15 @@
 import React, { Component } from 'react';
+import Dashboard from './Dashboard'
 const api = require('../../Utils/api');
 
-import {
+const {
   View,
   Text,
   StyleSheet,
   TextInput,
   TouchableHighlight,
-  ActivityIndicatorIOS
-} from 'react-native';
+  ActivityIndicator,
+} = require('react-native');
 
 
 const styles = StyleSheet.create({
@@ -58,7 +59,7 @@ class Main extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      userName: 'Nicu',
+      userName: 'timoftealexandru',
       isLoading: false,
       error: false
     }
@@ -79,11 +80,13 @@ class Main extends React.Component {
 	  api.getBio(this.state.userName)
 		  .then((res) => {
 	  	  if (res.message === 'Not Found') {
+	  	  	console.log("err",res)
 	  	  	this.setState({
 	  	  		error: 'User Not Found',
 				    isLoading: false
 			    })
 		    } else {
+	  	  	console.log('res:' , res)
           this.props.navigator.push({
             title: res.name || 'Select an Option',
 			      component: Dashboard,
@@ -99,6 +102,9 @@ class Main extends React.Component {
   }
   
   render(){
+  	const showError = (
+  		this.state.error ? <Text> {this.state.error} </Text> : <View></View>
+	  )
     return (
       <View style={styles.mainContainer}>
         <Text style={styles.title}>Search for a Github user</Text>
@@ -112,6 +118,11 @@ class Main extends React.Component {
 	        underlayColor="white">
 		      <Text style={styles.buttonText}>SEARCH</Text>
 	      </TouchableHighlight>
+	      <ActivityIndicator
+		      animating={this.state.isLoading}
+		      color="#111"
+		      size="large"></ActivityIndicator>
+	      {showError}
       </View>
     )
   }
