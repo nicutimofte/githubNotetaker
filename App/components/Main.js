@@ -1,15 +1,15 @@
 import React, { Component } from 'react';
 import Dashboard from './Dashboard'
-const api = require('../../Utils/api');
-
-const {
+// const api = require('../../Utils/api');
+import api from '../../Utils/api';
+import {
   View,
   Text,
   StyleSheet,
   TextInput,
   TouchableHighlight,
   ActivityIndicator,
-} = require('react-native');
+} from 'react-native';
 
 
 const styles = StyleSheet.create({
@@ -17,21 +17,23 @@ const styles = StyleSheet.create({
 		flex: 1,
 		padding: 30,
 		marginTop: 65,
-		justifyContent: 'center',
+		// marginBottom:90,
 		flexDirection: 'column',
-		backgroundColor: '#48BBEC',
+		justifyContent: 'center',
+		backgroundColor: '#48BBEC'
 	},
-	title:{
+	title: {
 		marginBottom: 20,
 		fontSize: 25,
 		textAlign: 'center',
 		color: '#fff'
 	},
-	searchInput:{
-		height: 58,
+	searchInput: {
+		height: 50,
 		padding: 4,
 		marginRight: 5,
 		fontSize: 23,
+		borderWidth: 1,
 		borderColor: 'white',
 		borderRadius: 8,
 		color: 'white'
@@ -52,10 +54,10 @@ const styles = StyleSheet.create({
 		marginTop: 10,
 		alignSelf: 'stretch',
 		justifyContent: 'center'
-	}
+	},
 });
 
-class Main extends React.Component {
+export default class Main extends React.Component {
   constructor(props){
     super(props);
     this.state = {
@@ -129,4 +131,4 @@ class Main extends React.Component {
   }
 }
 
-module.exports = Main;
+// module.exports = Main;

@@ -1,4 +1,5 @@
-const React = require('react');
+import React , { Component } from 'react';
+import Profile from './Profile';
 
 import {
 	View,
@@ -23,7 +24,11 @@ const styles = StyleSheet.create({
 	}
 })
 
-class Dashboard extends React.Component {
+export default class Dashboard extends Component {
+	constructor(props){
+		super(props);
+	}
+	
 	makeBackground(btn) {
 		const obj = {
 			flexDirection: 'row',
@@ -43,6 +48,11 @@ class Dashboard extends React.Component {
 	
 	goToProfile() {
 		console.log("goint to profile")
+		this.props.navigator.push({
+			title: this.props.userInfo.name || 'Select an Option',
+			component: Profile,
+			passProps: {userInfo: this.props.userInfo}
+		});
 	}
 	
 	goToRepos() {
@@ -81,4 +91,4 @@ class Dashboard extends React.Component {
 	}
 }
 
-module.exports = Dashboard
+// module.exports = Dashboard;
