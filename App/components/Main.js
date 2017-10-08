@@ -1,12 +1,14 @@
-import React, { Component } from 'react-native';
-let {
+import React, { Component } from 'react';
+const api = require('../../Utils/api');
+
+import {
   View,
   Text,
   StyleSheet,
   TextInput,
   TouchableHighlight,
   ActivityIndicatorIOS
-} = React;
+} from 'react-native';
 
 
 const styles = StyleSheet.create({
@@ -52,7 +54,7 @@ const styles = StyleSheet.create({
 	}
 });
 
-class Main extends Component {
+class Main extends React.Component {
   constructor(props){
     super(props);
     this.state = {
@@ -74,8 +76,26 @@ class Main extends Component {
 	  	isLoading: true
 	  })
 	  console.log("SUBMIT:",this.state.userName)
-	  // fetch data from github
-	  //
+	  api.getBio(this.state.userName)
+		  .then((res) => {
+	  	  if (res.message === 'Not Found') {
+	  	  	this.setState({
+	  	  		error: 'User Not Found',
+				    isLoading: false
+			    })
+		    } else {
+          this.props.navigator.push({
+            title: res.name || 'Select an Option',
+			      component: Dashboard,
+	          passProps: {userInfo: res}
+		      });
+          this.setState({
+          	isLoading: false,
+	          error: false,
+	          userName: ''
+          })
+		    }
+		  });
   }
   
   render(){
