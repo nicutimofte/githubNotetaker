@@ -121,7 +121,8 @@ class Main extends React.Component {
 	      <ActivityIndicator
 		      animating={this.state.isLoading}
 		      color="#111"
-		      size="large"></ActivityIndicator>
+		      size="large">
+	      </ActivityIndicator>
 	      {showError}
       </View>
     )
