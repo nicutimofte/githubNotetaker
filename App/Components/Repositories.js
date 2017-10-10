@@ -1,19 +1,22 @@
 import React , {Component} from 'react';
 import Badge from './Badge';
 import Separator from './Helpers/Separator';
+import Web_View from './Helpers/WebView';
+
 import {
 	StyleSheet,
 	View,
 	ScrollView,
-	TextTouchableHighlight,
+	Text,
+	TouchableHighlight,
 } from 'react-native';
 
-const styles = Stylesheet.create({
+const styles = StyleSheet.create({
 	container:{
 		flex: 1,
 	},
 	rowContainer:{
-		flexDirection: 1,
+		flexDirection: 'column',
 		flex: 1,
 		padding: 10
 	},
@@ -36,6 +39,11 @@ const styles = Stylesheet.create({
 class Repositories extends Component {
 	openPage(url) {
 		console.log(url)
+		this.props.navigator.push({
+			component: Web_View,
+			title: 'Web View',
+			passProps: {url}
+		})
 	}
 	render() {
 		const repos = this.props.repos;
@@ -43,13 +51,14 @@ class Repositories extends Component {
 			const desc = repos[index].description ? <Text style={styles.description}>{repos[index].description}</Text>:<View/>;
 			return(
 				<View key={index}>
-					<View style={style.rowContainer}>
+					<View style={styles.rowContainer}>
 						<TouchableHighlight
 							onPress={this.openPage.bind(this, repos[index].html_url)}
 							underlayColor='transparent'>
 							<Text style={styles.text}>{repos[index].name}</Text>
 						</TouchableHighlight>
 						<Text style={styles.stars}> Stars: {repos[index].stargazers_count} </Text>
+						{desc}
 					</View>
 					<Separator/>
 				</View>
@@ -58,6 +67,7 @@ class Repositories extends Component {
 		return(
 			<ScrollView style={styles.container} >
 				<Badge userInfo={this.props.userInfo}/>
+				{list}
 			</ScrollView>
 		)
 	}
