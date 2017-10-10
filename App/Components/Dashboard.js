@@ -1,5 +1,7 @@
 import React , { Component } from 'react';
 import Profile from './Profile';
+import Repositories from './Repositories';
+import api from '../Utils/api';
 
 import {
 	View,
@@ -49,7 +51,7 @@ export default class Dashboard extends Component {
 	goToProfile() {
 		console.log("goint to profile")
 		this.props.navigator.push({
-			title: this.props.userInfo.name || 'Select an Option',
+			title: 'Profile Page',
 			component: Profile,
 			passProps: {userInfo: this.props.userInfo}
 		});
@@ -57,6 +59,11 @@ export default class Dashboard extends Component {
 	
 	goToRepos() {
 		console.log("goint to repos")
+		this.props.navigator.push({
+			title: 'Profile Page',
+			component: Repositories,
+			passProps: {userInfo: this.props.userInfo}
+		});
 	}
 	
 	goToNotes() {
