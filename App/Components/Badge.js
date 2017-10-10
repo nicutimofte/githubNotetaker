@@ -32,7 +32,7 @@ const styles = StyleSheet.create({
 		alignSelf: 'center'
 	}
 })
-
+ 
 class Badge extends Component {
 	constructor(props){
 		super(props);

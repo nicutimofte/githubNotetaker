@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import Dashboard from './Dashboard'
 // const api = require('../../Utils/api');
-import api from '../../Utils/api';
+import api from '../Utils/api';
+
 import {
   View,
   Text,
