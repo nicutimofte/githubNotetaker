@@ -1,6 +1,7 @@
 import React , { Component } from 'react';
 import Profile from './Profile';
 import Repositories from './Repositories';
+import Notes from './Notes';
 import api from '../Utils/api';
 
 import {
@@ -70,11 +71,22 @@ export default class Dashboard extends Component {
 					}
 				});
 			})
-		
 	}
 	
 	goToNotes() {
-		console.log("going to notes")
+		api.getNotes(this.props.userInfo.login)
+			.then((res) => {
+				console.log("notes:", res)
+				res = res || {}
+				this.props.navigator.push({
+					title: 'Notes',
+					component: Notes,
+					passProps: {
+						userInfo: this.props.userInfo,
+						notes: res
+					}
+				});
+			})
 	}
 	
 	render() {
