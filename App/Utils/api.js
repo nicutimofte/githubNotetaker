@@ -22,6 +22,6 @@ let api = {
 			body: JSON.stringify(note),
 		}).then((res) => res.json());
 	}
-} 
+}
 
 module.exports = api
