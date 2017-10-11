@@ -116,5 +116,3 @@ export default class Dashboard extends Component {
 		)
 	}
 }
-
-// module.exports = Dashboard;

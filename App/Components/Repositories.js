@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
 	}
 })
 
-class Repositories extends Component {
+export default class Repositories extends Component {
 	openPage(url) {
 		console.log(url)
 		this.props.navigator.push({
@@ -72,5 +72,3 @@ class Repositories extends Component {
 		)
 	}
 }
-
-module.exports = Repositories;

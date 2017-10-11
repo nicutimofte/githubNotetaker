@@ -45,7 +45,7 @@ const styles = StyleSheet.create({
 	}
 });
 
-class Notes extends Component {
+export default class Notes extends Component {
 	constructor(props) {
 		super(props)
 		this.ds = new ListView.DataSource({rowHasChanged: (row1, row2) => row1 !== row2});
@@ -97,17 +97,22 @@ class Notes extends Component {
 	
 	footer() {
 		return (
-			<View style={styles.footerContainer}>
-				<TextInput style={styles.textInput}
-           value={this.state.note}
-           onChange={this.handleChange.bind(this)}
-           placeholder="New Note"/>
-				<TouchableHighlight
-					style={styles.button}
-					onPress={this.handleSubmit.bind(this)}
-					underlayColor="#88D4F5">
-					<Text style={styles.buttonText}> Submit </Text>
-				</TouchableHighlight>
+			<View>
+				<View style={styles.footerContainer}>
+					<TextInput
+						style={styles.searchInput}
+						value={this.state.note}
+						onChange={this.handleChange.bind(this)}
+						placeholder="New Note"
+					/>
+					<TouchableHighlight
+						style={styles.button}
+						onPress={this.handleSubmit.bind(this)}
+						underlayColor="#88D4F5"
+					>
+						<Text style={styles.buttonText}> Submit </Text>
+					</TouchableHighlight>
+				</View>
 			</View>
 		)
 	}
@@ -125,5 +130,3 @@ class Notes extends Component {
 		)
 	}
 }
-
-module.exports = Notes;

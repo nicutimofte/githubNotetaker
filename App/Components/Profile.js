@@ -66,5 +66,3 @@ export default class Profile extends Component {
 		)
 	}
 }
-
-// module.exports = Profile;

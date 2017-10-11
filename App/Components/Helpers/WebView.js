@@ -14,7 +14,7 @@ const styles = StyleSheet.create({
 	}
 })
 
-class Webview extends Component {
+export default class Webview extends Component {
 	render() {
 		return (
 			<View style={styles.container}>
@@ -23,5 +23,3 @@ class Webview extends Component {
 		)
 	}
 }
-
-module.exports = Webview;

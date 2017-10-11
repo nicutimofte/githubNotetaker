@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
 	}
 })
  
-class Badge extends Component {
+export default class Badge extends Component {
 	constructor(props){
 		super(props);
 	}
@@ -52,5 +52,3 @@ class Badge extends Component {
 // 	userInfo: React.propTypes.object.isRequired,
 //
 // }
-
-module.exports = Badge;
