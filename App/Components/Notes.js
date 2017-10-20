@@ -9,7 +9,8 @@ import {
 	Text,
 	TextInput,
 	StyleSheet,
-	TouchableHighlight
+	TouchableHighlight,
+	Alert
 } from 'react-native'
 
 const styles = StyleSheet.create({
@@ -62,9 +63,20 @@ export default class Notes extends Component {
 		});
 	}
 	
+	showAlert() {
+		Alert.alert(
+			'Note cannot be empty!',
+			'Please type something',
+			[
+				{text: 'OK', onPress: () => console.log('OK Pressed')},
+			],
+			{ cancelable: false }
+		)
+	}
 	handleSubmit() {
 		const note = this.state.note;
 		if (note === '') {
+			this.showAlert();
 			return;
 		}
 		this.setState({
@@ -124,7 +136,7 @@ export default class Notes extends Component {
 					dataSource={this.state.dataSource}
 					renderRow={this.renderRow}
 					renderHeader={() => <Badge userInfo={this.props.userInfo}/> }
-					enableEmpySections={true}/>
+					enableEmpySections={false}/>
 				{this.footer()}
 			</View>
 		)
