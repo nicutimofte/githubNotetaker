@@ -5,3 +5,18 @@ You can find the profile of a github user using his username. The app will show 
 company, email, etc. The app will show a mapview where the github user is located. Moreover you can browse through his repositories and see the projects(code, README) on a webview. There a section where 
 you can take notes related to the profile you had visited. The notes will be stored on a remote database(firebase) 
 and retrieved whenever you acces the section. 
+
+
+### Find github user
+
+![alt tag](https://i.imgur.com/wrUNF1I.png)
+
+![alt tag](https://i.imgur.com/lRKTZVx.png)
+
+### Profile
+
+![alt tag](https://i.imgur.com/zk0M748.png)
+
+### Repos
+
+![alt tag](https://i.imgur.com/YTUKrJ4.png)
