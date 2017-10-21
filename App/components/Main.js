@@ -61,7 +61,7 @@ export default class Main extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      userName: 'timoftealexandru',
+      userName: '',
       isLoading: false,
       error: false
     }
@@ -107,6 +107,7 @@ export default class Main extends React.Component {
   	const showError = (
   		this.state.error ? <Text> {this.state.error} </Text> : <View></View>
 	  )
+	  console.log("main",this.state)
     return (
       <View style={styles.mainContainer}>
         <Text style={styles.title}>Search for a Github user</Text>

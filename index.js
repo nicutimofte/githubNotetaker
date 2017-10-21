@@ -13,16 +13,23 @@ import {
 	StyleSheet,
 	Text,
 	View,
+	NavigatorIOS,
 } from 'react-native';
 import {
 	FIREBASE_API_KEY,
-		AUTH_DOMAIN,
-		DATABASE_URL,
-		FIREBASE_PROJECT_ID,
-		FIREBASE_STORAGE_BUCKET,
-		MESSAGE_ID
+	AUTH_DOMAIN,
+	DATABASE_URL,
+	FIREBASE_PROJECT_ID,
+	FIREBASE_STORAGE_BUCKET,
+	MESSAGE_ID
 } from 'react-native-dotenv';
  
+const styles = StyleSheet.create({
+	container: {
+		flex: 1,
+		backgroundColor: '#111111',
+	},
+})
 class githubNoteTaker extends React.Component {
 	constructor(props){
 		super(props);
@@ -40,9 +47,13 @@ class githubNoteTaker extends React.Component {
 	}
 	render() {
 		return (
-			<View>
-				<SignInForm />
-			</View>
+			<NavigatorIOS
+				style={styles.container}
+				initialRoute={{
+					title: 'Sign In',
+					component: SignInForm
+				}}
+			/>
 		);
 	}
 }

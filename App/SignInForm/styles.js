@@ -3,10 +3,6 @@ import React, {
 	StyleSheet
 } from 'react-native';
 const styles = StyleSheet.create({
-	container: {
-		flex: 1,
-		backgroundColor: '#111111',
-	},
 	loginFormStyle: {
 		flex: 1,
 		padding: 30,
