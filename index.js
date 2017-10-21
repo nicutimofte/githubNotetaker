@@ -5,14 +5,14 @@
  */
 
 import React, { Component } from 'react';
-import Main from './App/Components/Main';
+import * as firebase from 'firebase';
+import SignInForm from './App/SignInForm'
 import {
 	AppRegistry,
 	Platform,
 	StyleSheet,
 	Text,
 	View,
-	NavigatorIOS,
 } from 'react-native';
 import {
 	FIREBASE_API_KEY,
@@ -22,14 +22,6 @@ import {
 		FIREBASE_STORAGE_BUCKET,
 		MESSAGE_ID
 } from 'react-native-dotenv';
-
-
-const styles = StyleSheet.create({
-	container: {
-		flex: 1,
-		backgroundColor: '#111111',
-	}
-});
  
 class githubNoteTaker extends React.Component {
 	constructor(props){
@@ -46,16 +38,11 @@ class githubNoteTaker extends React.Component {
 			messagingSenderId: MESSAGE_ID
 		});
 	}
-	
 	render() {
 		return (
-			<NavigatorIOS
-				style={styles.container}
-				initialRoute={{
-					title: 'Github Notetaker',
-					component: Main
-				}}
-			/>
+			<View>
+				<SignInForm />
+			</View>
 		);
 	}
 }

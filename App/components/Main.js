@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import Dashboard from './Dashboard'
-// const api = require('../../Utils/api');
 import api from '../Utils/api';
 
 import {
@@ -18,7 +17,7 @@ const styles = StyleSheet.create({
 		flex: 1,
 		padding: 30,
 		marginTop: 65,
-		// marginBottom:90,
+		marginBottom:90,
 		flexDirection: 'column',
 		justifyContent: 'center',
 		backgroundColor: '#48BBEC'

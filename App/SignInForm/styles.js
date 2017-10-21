@@ -3,6 +3,19 @@ import React, {
 	StyleSheet
 } from 'react-native';
 const styles = StyleSheet.create({
+	container: {
+		flex: 1,
+		backgroundColor: '#111111',
+	},
+	loginFormStyle: {
+		flex: 1,
+		padding: 30,
+		marginTop: 65,
+		marginBottom:90,
+		flexDirection: 'column',
+		justifyContent: 'center',
+		
+	},
 	errorTextStyle: {
 		color: '#E64A19',
 		alignSelf: 'center',
@@ -10,9 +23,6 @@ const styles = StyleSheet.create({
 		paddingBottom: 10
 	},
 	inputStyle: {
-		paddingRight: 5,
-		paddingLeft: 5,
-		paddingBottom: 2,
 		color: 'black',
 		fontSize: 18,
 		fontWeight: '200',
@@ -24,11 +34,8 @@ const styles = StyleSheet.create({
 	},
 	containerStyle: {
 		height: 45,
-		flexDirection: 'column',
-		alignItems: 'flex-start',
 		width: '100%',
 		borderColor: 'gray',
-		borderBottomWidth: 1,
 	}
 });
 export default styles;
