@@ -27,7 +27,7 @@ const styles = StyleSheet.create({
 	}
 })
 
-export default class Dashboard extends Component {
+	export default class Dashboard extends Component {
 	constructor(props){
 		super(props);
 	}
@@ -63,7 +63,7 @@ export default class Dashboard extends Component {
 		api.getRepos(this.props.userInfo.login)
 			.then((res) => {
 				this.props.navigator.push({
-					title: 'Profile Page',
+					title: 'Repositories',
 					component: Repositories,
 					passProps: {
 						userInfo: this.props.userInfo,
