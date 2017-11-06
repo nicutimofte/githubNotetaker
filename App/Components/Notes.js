@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import api from '../Utils/api';
 import Separator from './Helpers/Separator';
 import Badge from './Badge';
+import Web_View from './Helpers/WebView'
 
 import {
 	View,
@@ -10,7 +11,8 @@ import {
 	TextInput,
 	StyleSheet,
 	TouchableHighlight,
-	Alert
+	Alert,
+	Linking
 } from 'react-native'
 
 const styles = StyleSheet.create({
@@ -21,6 +23,13 @@ const styles = StyleSheet.create({
 	buttonText: {
 		fontSize: 18,
 		color: 'white'
+	},
+	emailButton: {
+		height: 60,
+		flex: 3,
+		alignItems: 'center',
+		justifyContent: 'center',
+		backgroundColor: '#758BF4'
 	},
 	button: {
 		height: 60,
@@ -73,7 +82,45 @@ export default class Notes extends Component {
 			{ cancelable: false }
 		)
 	}
+	
+	openPage(url) {
+		console.log(url)
+		this.props.navigator.push({
+			component: Web_View,
+			title: 'Web View',
+			passProps: {url}
+		})
+	}
+	
+	handleSendEmail() {
+		const note = this.state.note;
+		const url = 'mailto:'+this.props.email+'?subject=githubNote&body='+note
+		
+		if (note === '') {
+			this.showAlert();
+			return;
+		}
+		
+		this.openPage(url)
+		
+		Linking.canOpenURL(url)
+			.then((supported) => {
+				if (!supported) {
+					console.error('Can\'t handle url: ' + url);
+				} else {
+					return Linking.openURL(url)
+						.then((data) => console.error("then", data))
+						.catch((err) => { throw err; });
+				}
+			})
+			.catch((err) => console.error('An error occurred', err));
+		
+		this.setState({
+			note: ''
+		})
+	}
 	handleSubmit() {
+		console.log("email",this.props.email)
 		const note = this.state.note;
 		if (note === '') {
 			this.showAlert();
@@ -123,6 +170,13 @@ export default class Notes extends Component {
 						underlayColor="#88D4F5"
 					>
 						<Text style={styles.buttonText}> Submit </Text>
+					</TouchableHighlight>
+					<TouchableHighlight
+						style={styles.emailButton}
+						onPress={this.handleSendEmail.bind(this)}
+						underlayColor="#88D4F5"
+					>
+						<Text style={styles.buttonText}> Send email </Text>
 					</TouchableHighlight>
 				</View>
 			</View>

@@ -61,7 +61,7 @@ export default class Main extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      userName: '',
+      userName: 'timoftealexandru',
       isLoading: false,
       error: false
     }
@@ -92,7 +92,10 @@ export default class Main extends React.Component {
           this.props.navigator.push({
             title: res.name || 'Select an Option',
 			      component: Dashboard,
-	          passProps: {userInfo: res}
+	          passProps: {
+            	userInfo: res,
+		          email: this.props.email
+	          }
 		      });
           this.setState({
           	isLoading: false,

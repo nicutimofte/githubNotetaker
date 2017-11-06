@@ -6,7 +6,7 @@ import Main from '../Components/Main';
 import styles from './styles.js'
 
 class SignInForm extends Component {
-	state = { email: '', password: '', error: '', loading: false};
+	state = { email: 'timoftealexandru5@gmail.com', password: '123456', error: '', loading: false};
 	onSignInPress() {
 		this.setState({ error: '', loading: true });
 		const { email, password } = this.state;
@@ -37,6 +37,7 @@ class SignInForm extends Component {
 		this.props.navigator.push({
 			title:'GithubNotetaker',
 			component: Main,
+			passProps: {email: this.state.email}
 		});
 	}
 	

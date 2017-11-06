@@ -46,6 +46,7 @@ class githubNoteTaker extends React.Component {
 		});
 	}
 	render() {
+		console.disableYellowBox = true
 		return (
 			<NavigatorIOS
 				style={styles.container}

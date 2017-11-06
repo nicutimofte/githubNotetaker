@@ -83,7 +83,8 @@ const styles = StyleSheet.create({
 					component: Notes,
 					passProps: {
 						userInfo: this.props.userInfo,
-						notes: res
+						notes: res,
+						email:this.props.email
 					}
 				});
 			})
