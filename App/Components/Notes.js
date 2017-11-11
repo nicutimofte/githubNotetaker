@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import api from '../Utils/api';
-import Separator from './Helpers/Separator';
+import Row from './Row'
 import Badge from './Badge';
 import Web_View from './Helpers/WebView'
 
@@ -58,11 +58,21 @@ const styles = StyleSheet.create({
 export default class Notes extends Component {
 	constructor(props) {
 		super(props)
+		const notes = Object.keys(this.props.notes).map(key =>{
+			return {
+				text: this.props.notes[key],
+				id: key
+			}
+		})
+		console.log("notess",notes)
+		
 		this.ds = new ListView.DataSource({rowHasChanged: (row1, row2) => row1 !== row2});
 		this.state = {
-			dataSource: this.ds.cloneWithRows(this.props.notes),
-			note: '',
-			error: ''
+			dataSource: this.ds.cloneWithRows(notes),
+			noteText: '',
+      note: '',
+			error: '',
+			editingNote: null
 		};
 	}
 	
@@ -142,19 +152,15 @@ export default class Notes extends Component {
 			this.setState({error})
 		})
 	}
+  
+  handleOnPress = (id,text) => {
+	  console.log("onpress",id,text)
+	  this.setState({ editingNote:id, noteText:text })
+  }
 	
-	renderRow(rowData) {
-		return (
-			<View>
-				<View style={styles.rowContainer}>
-					<Text> {rowData} </Text>
-				</View>
-				<Separator/>
-			</View>
-		)
-	}
 	
-	footer() {
+	
+	footer = () => {
 		return (
 			<View>
 				<View style={styles.footerContainer}>
@@ -182,6 +188,12 @@ export default class Notes extends Component {
 			</View>
 		)
 	}
+	
+	renderRow = (note) => {
+	  return (
+	    <Row note={note}/>
+    )
+  }
 	
 	render() {
 		return (
