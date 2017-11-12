@@ -4,6 +4,8 @@ import Repositories from './Repositories';
 import Notes from './Notes';
 import api from '../Utils/api';
 import Charts from './Charts'
+import firebase from 'firebase'
+
 import {
 	View,
 	Text,
@@ -31,8 +33,18 @@ const styles = StyleSheet.create({
 	export default class Dashboard extends Component {
 	constructor(props){
 		super(props);
+		this.state={
+			isAdmin:null
+		}
 	}
 	
+	componentDidMount() {
+		const slug = this.props.email.split('@')[0]
+    firebase.database().ref(`users/${slug}`).once('value').then(user => {
+    	console.log("user",user.val())
+			this.setState({isAdmin: user.val().isAdmin})
+		})
+	}
 	makeBackground(btn) {
 		const obj = {
 			flexDirection: 'row',
@@ -61,14 +73,26 @@ const styles = StyleSheet.create({
 	goToRepos() {
 		api.getRepos(this.props.userInfo.login)
 			.then((res) => {
-				this.props.navigator.push({
-					title: 'Repositories',
-					component: Charts,
-					passProps: {
-						userInfo: this.props.userInfo,
-						repos: res
-					}
-				});
+				console.log('this',this.state.isAdmin)
+				if (this.state.isAdmin===1) {
+          this.props.navigator.push({
+            title: 'Repositories',
+            component: Repositories,
+            passProps: {
+              userInfo: this.props.userInfo,
+              repos: res
+            }
+          });
+				} else {
+          this.props.navigator.push({
+            title: 'Charts',
+            component: Charts,
+            passProps: {
+              userInfo: this.props.userInfo,
+              repos: res
+            }
+          });
+				}
 			})
 	}
 	
