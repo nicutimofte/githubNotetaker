@@ -15,13 +15,21 @@ class SignInForm extends Component {
 				this.setState({ error: '', loading: false });
 				this.goToMain()
 			})
-			.catch(() => {
+			.catch((err) => {
+        console.log("eroare",err)
 				firebase.auth().createUserWithEmailAndPassword(email, password)
 					.then(() => {
+            firebase.database().ref().child(`users/${email.split('@')[0]}`)
+              .set({
+                active: 1,
+              })
+              .then(() => user)
+              .catch(err=>console.log("error",err))
 						this.setState({ error: '', loading: false});
 						this.goToMain()
 					})
-					.catch(() => {
+					.catch((err) => {
+            console.log("erroare",err)
 						this.setState({ error: 'Authentication failed.', loading: false, });
 					});
 			});

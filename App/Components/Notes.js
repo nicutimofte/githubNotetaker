@@ -231,7 +231,7 @@ export default class Notes extends Component {
 				<ListView
 					dataSource={this.state.dataSource}
 					renderRow={this.renderRow}
-					// renderHeader={() => <Badge userInfo={this.props.userInfo}/> }
+					renderHeader={() => <Badge userInfo={this.props.userInfo}/> }
 					enableEmpySections={false}/>
 				{this.footer()}
 			</View>

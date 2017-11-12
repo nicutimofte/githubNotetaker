@@ -3,7 +3,7 @@ import Profile from './Profile';
 import Repositories from './Repositories';
 import Notes from './Notes';
 import api from '../Utils/api';
-
+import Charts from './Charts'
 import {
 	View,
 	Text,
@@ -11,6 +11,7 @@ import {
 	Image,
 	TouchableHighlight,
 } from 'react-native';
+
 
 const styles = StyleSheet.create({
 	container:{
@@ -62,7 +63,7 @@ const styles = StyleSheet.create({
 			.then((res) => {
 				this.props.navigator.push({
 					title: 'Repositories',
-					component: Repositories,
+					component: Charts,
 					passProps: {
 						userInfo: this.props.userInfo,
 						repos: res

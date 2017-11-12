@@ -8,15 +8,10 @@ import React, { Component } from 'react';
 import * as firebase from 'firebase';
 import SignInForm from './App/SignInForm'
 import OfflineNotes from './App/Components/OfflineNotes'
-import Notes from './App/Components/Notes'
-import { withNetworkConnectivity } from 'react-native-offline';
-import { ConnectivityRenderer } from 'react-native-offline';
+
 import {
 	AppRegistry,
-	Platform,
 	StyleSheet,
-	Text,
-	View,
 	NavigatorIOS,
 	NetInfo
 } from 'react-native';
@@ -44,6 +39,7 @@ const styles = StyleSheet.create({
 		backgroundColor: '#111111',
 	},
 })
+
 class githubNoteTaker extends Component {
 	constructor (props) {
 		super(props)
@@ -53,9 +49,10 @@ class githubNoteTaker extends Component {
 	}
   
   componentDidMount() {
+		
     NetInfo.isConnected.addEventListener('change', this.handleConnectionChange);
     
-    NetInfo.isConnected.fetch().done(
+    NetInfo.isConnected.fetch().then(
       (isConnected) => { this.setState({ isConnected }); }
     );
   }
@@ -80,7 +77,7 @@ class githubNoteTaker extends Component {
       }
     }
     return (
-			this.state.isConnected === true
+			!this.state.isConnected === true
 				? <NavigatorIOS
 					style={styles.container}
 					initialRoute={{
