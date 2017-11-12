@@ -10,13 +10,20 @@ import {
 } from 'react-native'
 
 const styles = StyleSheet.create({
-  container: {
+  editContainer: {
     flex: 1,
-    flexDirection: 'column'
+    flexDirection: 'row'
   },
   buttonText: {
     fontSize: 18,
     color: 'white'
+  },
+  saveButton: {
+    height: 60,
+    backgroundColor: '#48BBEC',
+    flex: 3,
+    alignItems: 'center',
+    justifyContent: 'center'
   },
   button: {
     height: 60,
@@ -25,7 +32,15 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center'
   },
-  searchInput: {
+  deleteButton: {
+    height: 60,
+    width:60,
+    backgroundColor: '#ff0000',
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  editInput: {
     height: 60,
     padding: 10,
     fontSize: 18,
@@ -45,51 +60,63 @@ export default class Row extends Component {
     this.state = {
       id: props.note.id,
       text: props.note.text,
-      noteText: '',
+      editedText: '',
       error: '',
       editingNote: null
     };
   }
   
   handleOnPress = (id,text) => {
-    console.log("onpress",id,text)
-    this.setState({ editingNote:id, noteText:text })
+    this.setState({ editingNote:id, editedText:text })
   }
   
   handleSave = () => {
-    const text = this.state.noteText
-    console.log("onsave")
-    this.setState({ editingNote:null,text, noteText:''  })
+    const { editedText, editingNote} = this.state
+    const { onEdit } = this.props
+    if (onEdit) {
+      onEdit(editedText, editingNote)
+    }
+    this.setState({ editingNote:null,text: editedText, editedText:''  })
   }
   
   render() {
-    const { id, text } = this.state
-    console.log("note",this.state.editingNote, this.state.noteText, text)
+    const { id, text, editedText } = this.state
+    const { onDelete } = this.props
+    console.log("row", id, text)
     return (
       <View>
         <View style={styles.rowContainer}>
           {this.state.editingNote !== null && this.state.editingNote === id
-            ?	<View>
+            ?	<View style={styles.editContainer}>
               <TextInput
-              style={styles.searchInput}
-              value={this.state.noteText}
-              onChange={(noteText) => this.setState({noteText})}
+              style={styles.editInput}
+              value={editedText}
+              onChangeText={(editedText) => this.setState({editedText})}
             />
               <TouchableHighlight
-                style={styles.button}
+                style={styles.saveButton}
                 onPress={this.handleSave}
                 underlayColor="#88D4F5"
               >
                 <Text style={styles.buttonText}> Save </Text>
               </TouchableHighlight>
             </View>
-            :	<TouchableHighlight
-              style={styles.button}
-              onPress={()=>this.handleOnPress(id,text)}
-              underlayColor="#88D4F5"
-            >
-              <Text style={styles.buttonText}> {text} </Text>
-            </TouchableHighlight>
+            :<View style={styles.editContainer}>
+              <TouchableHighlight
+                style={styles.button}
+                onPress={()=>this.handleOnPress(id,text)}
+                underlayColor="#88D4F5"
+              >
+                <Text style={styles.buttonText}> {text} </Text>
+              </TouchableHighlight>
+              <TouchableHighlight
+                style={styles.deleteButton}
+                onPress={() => onDelete(id)}
+                underlayColor="#88D4F5"
+              >
+                <Text style={styles.buttonText}> X </Text>
+              </TouchableHighlight>
+            </View>
           }
         </View>
         <Separator/>

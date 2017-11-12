@@ -78,7 +78,6 @@ export default class Main extends React.Component {
 	  this.setState({
 	  	isLoading: true
 	  })
-	  console.log("SUBMIT:",this.state.userName)
 	  api.getBio(this.state.userName)
 		  .then((res) => {
 	  	  if (res.message === 'Not Found') {
@@ -88,7 +87,6 @@ export default class Main extends React.Component {
 				    isLoading: false
 			    })
 		    } else {
-	  	  	console.log('res:' , res)
           this.props.navigator.push({
             title: res.name || 'Select an Option',
 			      component: Dashboard,
@@ -110,7 +108,6 @@ export default class Main extends React.Component {
   	const showError = (
   		this.state.error ? <Text> {this.state.error} </Text> : <View></View>
 	  )
-	  console.log("main",this.state)
     return (
       <View style={styles.mainContainer}>
         <Text style={styles.title}>Search for a Github user</Text>

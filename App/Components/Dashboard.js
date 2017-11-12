@@ -50,7 +50,6 @@ const styles = StyleSheet.create({
 	}
 	
 	goToProfile() {
-		console.log("goint to profile")
 		this.props.navigator.push({
 			title: 'Profile Page',
 			component: Profile,
@@ -59,7 +58,6 @@ const styles = StyleSheet.create({
 	}
 	
 	goToRepos() {
-		console.log("goint to repos")
 		api.getRepos(this.props.userInfo.login)
 			.then((res) => {
 				this.props.navigator.push({
@@ -76,7 +74,6 @@ const styles = StyleSheet.create({
 	goToNotes() {
 		api.getNotes(this.props.userInfo.login)
 			.then((res) => {
-				console.log("notes:", res)
 				res = res || {}
 				this.props.navigator.push({
 					title: 'Notes',
@@ -91,7 +88,6 @@ const styles = StyleSheet.create({
 	}
 	
 	render() {
-		console.log("repos",this.props.userInfo)
 		return (
 			<View style={styles.container}>
 				<Image source={{uri: this.props.userInfo.avatar_url}} style={styles.image}/>

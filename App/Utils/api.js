@@ -15,13 +15,15 @@ let api = {
 		return fetch(url).then((res) => res.json());
 	},
 	editNote(userName,note,id) {
-		const row = `{"${id}":"${note}"}`
+		const row = {}
+		row[id] = note
 		userName = userName.toLowerCase().trim();
 		const url = `https://githubnotetaker-reactnative.firebaseio.com/${userName}.json`;
 		return fetch(url,{
 			method: 'patch',
 			body: JSON.stringify(row),
-		}).then((res) => res.json());
+		}).then((res) => res.json())
+			.catch(err=>console.log("error:",err))
 	},
 	deleteNote(userName,id) {
 		userName = userName.toLowerCase().trim();

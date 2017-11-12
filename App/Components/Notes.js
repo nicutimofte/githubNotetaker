@@ -58,13 +58,8 @@ const styles = StyleSheet.create({
 export default class Notes extends Component {
 	constructor(props) {
 		super(props)
-		const notes = Object.keys(this.props.notes).map(key =>{
-			return {
-				text: this.props.notes[key],
-				id: key
-			}
-		})
-		console.log("notess",notes)
+		const notes = this.mapNotes(props.notes)
+		console.log("notess",notes,props)
 		
 		this.ds = new ListView.DataSource({rowHasChanged: (row1, row2) => row1 !== row2});
 		this.state = {
@@ -74,6 +69,17 @@ export default class Notes extends Component {
 			error: '',
 			editingNote: null
 		};
+	}
+	
+	mapNotes = (notes) => {
+    return notes
+			?Object.keys(notes).map(key =>{
+				return {
+					text: notes[key],
+					id: key
+				}
+    	})
+			:null
 	}
 	
 	handleChange(event) {
@@ -94,7 +100,6 @@ export default class Notes extends Component {
 	}
 	
 	openPage(url) {
-		console.log(url)
 		this.props.navigator.push({
 			component: Web_View,
 			title: 'Web View',
@@ -129,8 +134,8 @@ export default class Notes extends Component {
 			note: ''
 		})
 	}
+	
 	handleSubmit() {
-		console.log("email",this.props.email)
 		const note = this.state.note;
 		if (note === '') {
 			this.showAlert();
@@ -144,7 +149,7 @@ export default class Notes extends Component {
 				api.getNotes(this.props.userInfo.login)
 					.then((data) => {
 						this.setState({
-							dataSource: this.ds.cloneWithRows(data)
+							dataSource: this.ds.cloneWithRows(this.mapNotes(data))
 						})
 					})
 			}).catch((err) => {
@@ -152,13 +157,37 @@ export default class Notes extends Component {
 			this.setState({error})
 		})
 	}
-  
-  handleOnPress = (id,text) => {
-	  console.log("onpress",id,text)
-	  this.setState({ editingNote:id, noteText:text })
-  }
 	
+	handleEdit = (text,id) => {
+    api.editNote(this.props.userInfo.login, text, id)
+      .then((data) => {
+        api.getNotes(this.props.userInfo.login)
+          .then((data) => {
+            console.log("edited",data)
+            this.setState({
+              dataSource: this.ds.cloneWithRows(this.mapNotes(data))
+            })
+          })
+      }).catch((err) => {
+      console.log("Request failed", err)
+      this.setState({error})
+    })
+	}
 	
+	handleDelete = (id) => {
+    api.deleteNote(this.props.userInfo.login, id)
+      .then((data) => {
+        api.getNotes(this.props.userInfo.login)
+          .then((data) => {
+            this.setState({
+              dataSource: this.ds.cloneWithRows(this.mapNotes(data))
+            })
+          })
+      }).catch((err) => {
+      console.log("Request failed", err)
+      this.setState({error})
+    })
+	}
 	
 	footer = () => {
 		return (
@@ -191,7 +220,7 @@ export default class Notes extends Component {
 	
 	renderRow = (note) => {
 	  return (
-	    <Row note={note}/>
+	    <Row note={note} onDelete={this.handleDelete} onEdit={this.handleEdit}/>
     )
   }
 	
