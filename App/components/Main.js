@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Dashboard from './Dashboard'
+import { withNetworkConnectivity } from 'react-native-offline';
 import api from '../Utils/api';
 
 import {

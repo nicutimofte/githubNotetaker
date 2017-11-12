@@ -179,6 +179,7 @@ export default class Notes extends Component {
       .then((data) => {
         api.getNotes(this.props.userInfo.login)
           .then((data) => {
+						console.log("after delete",data)
             this.setState({
               dataSource: this.ds.cloneWithRows(this.mapNotes(data))
             })
@@ -230,7 +231,7 @@ export default class Notes extends Component {
 				<ListView
 					dataSource={this.state.dataSource}
 					renderRow={this.renderRow}
-					renderHeader={() => <Badge userInfo={this.props.userInfo}/> }
+					// renderHeader={() => <Badge userInfo={this.props.userInfo}/> }
 					enableEmpySections={false}/>
 				{this.footer()}
 			</View>
