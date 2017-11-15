@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Dashboard from './Dashboard'
-// const api = require('../../Utils/api');
+import { withNetworkConnectivity } from 'react-native-offline';
 import api from '../Utils/api';
 
 import {
@@ -18,7 +18,7 @@ const styles = StyleSheet.create({
 		flex: 1,
 		padding: 30,
 		marginTop: 65,
-		// marginBottom:90,
+		marginBottom:90,
 		flexDirection: 'column',
 		justifyContent: 'center',
 		backgroundColor: '#48BBEC'
@@ -79,7 +79,6 @@ export default class Main extends React.Component {
 	  this.setState({
 	  	isLoading: true
 	  })
-	  console.log("SUBMIT:",this.state.userName)
 	  api.getBio(this.state.userName)
 		  .then((res) => {
 	  	  if (res.message === 'Not Found') {
@@ -89,11 +88,13 @@ export default class Main extends React.Component {
 				    isLoading: false
 			    })
 		    } else {
-	  	  	console.log('res:' , res)
           this.props.navigator.push({
             title: res.name || 'Select an Option',
 			      component: Dashboard,
-	          passProps: {userInfo: res}
+	          passProps: {
+            	userInfo: res,
+		          email: this.props.email
+	          }
 		      });
           this.setState({
           	isLoading: false,

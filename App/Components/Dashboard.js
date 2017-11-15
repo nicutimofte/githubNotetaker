@@ -3,6 +3,8 @@ import Profile from './Profile';
 import Repositories from './Repositories';
 import Notes from './Notes';
 import api from '../Utils/api';
+import Charts from './Charts'
+import firebase from 'firebase'
 
 import {
 	View,
@@ -11,6 +13,7 @@ import {
 	Image,
 	TouchableHighlight,
 } from 'react-native';
+
 
 const styles = StyleSheet.create({
 	container:{
@@ -27,11 +30,21 @@ const styles = StyleSheet.create({
 	}
 })
 
-export default class Dashboard extends Component {
+	export default class Dashboard extends Component {
 	constructor(props){
 		super(props);
+		this.state={
+			isAdmin:null
+		}
 	}
 	
+	componentDidMount() {
+		const slug = this.props.email.split('@')[0]
+    firebase.database().ref(`users/${slug}`).once('value').then(user => {
+    	console.log("user",user.val())
+			this.setState({isAdmin: user.val().isAdmin})
+		})
+	}
 	makeBackground(btn) {
 		const obj = {
 			flexDirection: 'row',
@@ -50,7 +63,6 @@ export default class Dashboard extends Component {
 	}
 	
 	goToProfile() {
-		console.log("goint to profile")
 		this.props.navigator.push({
 			title: 'Profile Page',
 			component: Profile,
@@ -59,38 +71,48 @@ export default class Dashboard extends Component {
 	}
 	
 	goToRepos() {
-		console.log("goint to repos")
 		api.getRepos(this.props.userInfo.login)
 			.then((res) => {
-				this.props.navigator.push({
-					title: 'Profile Page',
-					component: Repositories,
-					passProps: {
-						userInfo: this.props.userInfo,
-						repos: res
-					}
-				});
+				console.log('this',this.state.isAdmin)
+				if (this.state.isAdmin===1) {
+          this.props.navigator.push({
+            title: 'Repositories',
+            component: Repositories,
+            passProps: {
+              userInfo: this.props.userInfo,
+              repos: res
+            }
+          });
+				} else {
+          this.props.navigator.push({
+            title: 'Charts',
+            component: Charts,
+            passProps: {
+              userInfo: this.props.userInfo,
+              repos: res
+            }
+          });
+				}
 			})
 	}
 	
 	goToNotes() {
 		api.getNotes(this.props.userInfo.login)
 			.then((res) => {
-				console.log("notes:", res)
 				res = res || {}
 				this.props.navigator.push({
 					title: 'Notes',
 					component: Notes,
 					passProps: {
 						userInfo: this.props.userInfo,
-						notes: res
+						notes: res,
+						email:this.props.email
 					}
 				});
 			})
 	}
 	
 	render() {
-		console.log("repos",this.props.userInfo)
 		return (
 			<View style={styles.container}>
 				<Image source={{uri: this.props.userInfo.avatar_url}} style={styles.image}/>

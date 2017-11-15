@@ -38,7 +38,6 @@ const styles = StyleSheet.create({
 
 export default class Repositories extends Component {
 	openPage(url) {
-		console.log(url)
 		this.props.navigator.push({
 			component: Web_View,
 			title: 'Web View',
