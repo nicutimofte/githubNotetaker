@@ -56,7 +56,6 @@ const styles = StyleSheet.create({
 export default class Row extends Component {
   constructor(props) {
     super(props)
-    
     this.state = {
       id: props.note.id,
       text: props.note.text,
@@ -64,6 +63,10 @@ export default class Row extends Component {
       error: '',
       editingNote: null
     };
+  }
+  componentWillReceiveProps (nextProps) {
+    const { id, text } = nextProps.note
+    this.setState({id, text})
   }
   
   handleOnPress = (id,text) => {
@@ -82,7 +85,6 @@ export default class Row extends Component {
   render() {
     const { id, text, editedText } = this.state
     const { onDelete } = this.props
-    console.log("row", id, text)
     return (
       <View>
         <View style={styles.rowContainer}>

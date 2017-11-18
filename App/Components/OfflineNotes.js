@@ -13,7 +13,7 @@ import {
   StyleSheet,
   TouchableHighlight,
   Alert,
-  Linking
+  AsyncStorage
 } from 'react-native'
 
 const styles = StyleSheet.create({
@@ -69,8 +69,21 @@ export default class Notes extends Component {
       noteText: '',
       note: '',
       error: '',
+      localNote: null,
       editingNote: null
     };
+  }
+  
+  async componentDidMount () {
+    const { username } = this.state
+    try{
+      const value = await AsyncStorage.getItem(username)
+      await AsyncStorage.removeItem(username, () => { console.log("success")})
+      console.log("value", value)
+      this.setState({localNote: value})
+    } catch (err) {
+      console.log("error:", err)
+    }
   }
   
   mapNotes = (notes) => {
@@ -101,7 +114,7 @@ export default class Notes extends Component {
     )
   }
   
-  handleSubmit = () => {
+  handleSubmit = async () => {
     const note = this.state.note;
     if (note === '') {
       this.showAlert();
@@ -111,18 +124,33 @@ export default class Notes extends Component {
       note: ''
     })
     console.log("submit", this.state.username,note)
-    api.addLocalNote(this.state.username, note)
-      .then((data) => {
-        api.getLocalNotes(this.state.username)
-          .then((data) => {
-            this.setState({
-              dataSource: this.ds.cloneWithRows(this.mapNotes(data))
-            })
-          })
-      }).catch((err) => {
-      console.log("Request failed", err)
-      this.setState({error})
-    })
+    try {
+      await AsyncStorage.setItem(this.state.username, note)
+      let ds = this.state.dataSource._dataBlob.s1.slice()
+      ds.push({text: note, id: this.guidGenerator()})
+      this.setState({dataSource: this.state.dataSource.cloneWithRows(ds)})
+    } catch (err) {
+      console.log("error:", err)
+    }
+    // api.addLocalNote(this.state.username, note)
+    //   .then((data) => {
+    //     api.getLocalNotes(this.state.username)
+    //       .then((data) => {
+    //         this.setState({
+    //           dataSource: this.ds.cloneWithRows(this.mapNotes(data))
+    //         })
+    //       })
+    //   }).catch((err) => {
+    //   console.log("Request failed", err)
+    //   this.setState({error})
+    // })
+  }
+  
+  guidGenerator = () => {
+    const S4 = () => {
+      return (((1+Math.random())*0x10000)|0).toString(16).substring(1);
+    };
+    return (S4()+S4()+S4()+S4()+S4()).toUpperCase()
   }
   
   handleEdit = (text,id) => {
@@ -186,6 +214,7 @@ export default class Notes extends Component {
   }
   
   render() {
+    console.log("localNote", this.state.localNote)
     return (
       <View style={styles.container}>
         <ListView
