@@ -114,6 +114,21 @@ export default class Notes extends Component {
     )
   }
   
+  async componentDidMount () {
+    const { username } = this.state
+    try {
+      const value = await AsyncStorage.getItem(`username=${username}`)
+      console.log("from local storage.. ", value)
+      if ( value !== null ) {
+        let ds = this.state.dataSource._dataBlob.s1.slice()
+        ds.push({text: value, id: this.guidGenerator()})
+        this.setState({dataSource: this.state.dataSource.cloneWithRows(ds)})
+      }
+    } catch (err) {
+      console.log("error:", err)
+    }
+  }
+  
   handleSubmit = async () => {
     const { note, username } = this.state
     if (note === '') {
@@ -125,10 +140,10 @@ export default class Notes extends Component {
     })
     console.log("submit", this.state.username,note)
     try {
+      //set added note to localstorage
       await AsyncStorage.setItem(`username=${username}`, note)
       const value = await AsyncStorage.getItem(`username=${username}`)
       console.log("value", value)
-      // this.setState({localNote: value})
       let ds = this.state.dataSource._dataBlob.s1.slice()
       ds.push({text: value, id: this.guidGenerator()})
       this.setState({dataSource: this.state.dataSource.cloneWithRows(ds)})

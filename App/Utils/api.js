@@ -46,15 +46,15 @@ let api = {
     try {
       const keys = await AsyncStorage.getAllKeys();
       console.log("keys", keys)
-			keys.map( async (username) => {
-				if ( `${username}`.split('=')[0] === 'username') {
-					const userName = `${username}`.split('=')[1]
-					const note = await AsyncStorage.getItem(userName)
-					
+			keys.map( async (key) => {
+				if ( `${key}`.split('=')[0] === 'username') {
+					const userName = `${key}`.split('=')[1]
+					const note = await AsyncStorage.getItem(key)
+     
 					console.log("sync:", userName, note)
 					await this.addNote(userName,note).then(async () => {
 						console.log("added to firebase!")
-            await AsyncStorage.removeItem(username, () => {console.log('success')})
+            await AsyncStorage.removeItem(key, () => {console.log('success')})
 					})
 				}
 			})
