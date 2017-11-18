@@ -8,6 +8,25 @@ import React, { Component } from 'react';
 import * as firebase from 'firebase';
 import SignInForm from './App/SignInForm'
 import OfflineNotes from './App/Components/OfflineNotes'
+import api from './App/Utils/api'
+import Reactotron, {
+  trackGlobalErrors,
+  openInEditor,
+  overlay,
+  asyncStorage,
+  networking
+} from 'reactotron-react-native'
+
+Reactotron
+  .configure({
+    name: 'githubNoteTaker'
+  })
+  .use(trackGlobalErrors())
+  .use(openInEditor())
+  .use(overlay())
+  .use(asyncStorage())
+  .use(networking())
+  .connect()
 
 import {
 	AppRegistry,
@@ -49,7 +68,8 @@ class githubNoteTaker extends Component {
 	}
   
   componentDidMount() {
-		
+		api.syncLocalNotes()
+			
     NetInfo.isConnected.addEventListener('change', this.handleConnectionChange);
     
     NetInfo.isConnected.fetch().then(

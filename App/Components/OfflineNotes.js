@@ -74,17 +74,17 @@ export default class Notes extends Component {
     };
   }
   
-  async componentDidMount () {
-    const { username } = this.state
-    try{
-      const value = await AsyncStorage.getItem(username)
-      await AsyncStorage.removeItem(username, () => { console.log("success")})
-      console.log("value", value)
-      this.setState({localNote: value})
-    } catch (err) {
-      console.log("error:", err)
-    }
-  }
+  // async componentDidMount () {
+  //   const { username } = this.state
+  //   try{
+  //     const value = await AsyncStorage.getItem(username)
+  //     await AsyncStorage.removeItem(username, () => { console.log("success")})
+  //     console.log("value", value)
+  //     this.setState({localNote: value})
+  //   } catch (err) {
+  //     console.log("error:", err)
+  //   }
+  // }
   
   mapNotes = (notes) => {
     return notes
@@ -115,7 +115,7 @@ export default class Notes extends Component {
   }
   
   handleSubmit = async () => {
-    const note = this.state.note;
+    const { note, username } = this.state
     if (note === '') {
       this.showAlert();
       return;
@@ -125,9 +125,12 @@ export default class Notes extends Component {
     })
     console.log("submit", this.state.username,note)
     try {
-      await AsyncStorage.setItem(this.state.username, note)
+      await AsyncStorage.setItem(`username=${username}`, note)
+      const value = await AsyncStorage.getItem(`username=${username}`)
+      console.log("value", value)
+      // this.setState({localNote: value})
       let ds = this.state.dataSource._dataBlob.s1.slice()
-      ds.push({text: note, id: this.guidGenerator()})
+      ds.push({text: value, id: this.guidGenerator()})
       this.setState({dataSource: this.state.dataSource.cloneWithRows(ds)})
     } catch (err) {
       console.log("error:", err)
@@ -214,7 +217,6 @@ export default class Notes extends Component {
   }
   
   render() {
-    console.log("localNote", this.state.localNote)
     return (
       <View style={styles.container}>
         <ListView

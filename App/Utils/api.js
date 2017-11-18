@@ -1,3 +1,5 @@
+import { AsyncStorage } from 'react-native'
+
 let api = {
 	getBio(userName) {
 		userName = userName.toLowerCase().trim();
@@ -40,20 +42,33 @@ let api = {
 			body: JSON.stringify(note),
 		}).then((res) => res.json());
 	},
-	async addLocalNote(userName, note) {
-    userName = userName.toLowerCase().trim();
+	async syncLocalNotes () {
     try {
-      const value = await AsyncStorage.getItem(userName);
-      console.log(value);
-      if (value !== null){
-        let notes = JSON.parse(value)
-				notes.push(note)
-				await AsyncStorage.setItem(userName, notes)
-      } else {
-        await AsyncStorage.setItem(userName, [note])
-			}
+      const keys = await AsyncStorage.getAllKeys();
+      console.log("keys", keys)
+			keys.map( async (username) => {
+				if ( `${username}`.split('=')[0] === 'username') {
+					const userName = `${username}`.split('=')[1]
+					const note = await AsyncStorage.getItem(userName)
+					
+					console.log("sync:", userName, note)
+					await this.addNote(userName,note).then(async () => {
+						console.log("added to firebase!")
+            await AsyncStorage.removeItem(username, () => {console.log('success')})
+					})
+				}
+			})
+      // const keys = await AsyncStorage.getAllKeys();
+      // console.log(value);
+      // if (value !== null){
+      //   let notes = JSON.parse(value)
+				// notes.push(note)
+				// await AsyncStorage.setItem(userName, notes)
+      // } else {
+      //   await AsyncStorage.setItem(userName, [note])
+      // }
     } catch (error) {
-      // Error retrieving data
+      console.log("error: " ,error)
     }
 	},
 	async getLocalNotes(username) {
