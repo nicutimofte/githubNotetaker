@@ -97,7 +97,7 @@ class githubNoteTaker extends Component {
       }
     }
     return (
-			this.state.isConnected === true
+			!this.state.isConnected === true
 				? <NavigatorIOS
 					style={styles.container}
 					initialRoute={{

@@ -150,18 +150,6 @@ export default class Notes extends Component {
     } catch (err) {
       console.log("error:", err)
     }
-    // api.addLocalNote(this.state.username, note)
-    //   .then((data) => {
-    //     api.getLocalNotes(this.state.username)
-    //       .then((data) => {
-    //         this.setState({
-    //           dataSource: this.ds.cloneWithRows(this.mapNotes(data))
-    //         })
-    //       })
-    //   }).catch((err) => {
-    //   console.log("Request failed", err)
-    //   this.setState({error})
-    // })
   }
   
   guidGenerator = () => {
